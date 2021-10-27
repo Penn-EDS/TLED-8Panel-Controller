@@ -128,7 +128,7 @@ writeline(device,a);
 
  while go
   clear a;
-  a= input('Enter S to STOP the Session OR After Session COMPLETED to Re-Enter Array: ','s');
+  a= input('Enter S to STOP the Session OR to Re-Enter Array: ','s');
   
    if (a == 'S')
     disp('Session STOP or Completed');
