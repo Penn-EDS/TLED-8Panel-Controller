@@ -1,5 +1,5 @@
 /*************************************************** 
-  Version 2: start and end delay for each panel.
+  Version 2: start and end delay for each Box.
   This is firmware to control 8 LED panel controller.
   Each panel have 3 channels. 
 
@@ -110,32 +110,32 @@ int B4P2=1;
  *                               TimeOneB4P2(58),TimeTwoB4P2(59),intensityTimeONER(60),intensityTimeTWOR(61),intensityTimeONEB(62),intensityTimeTWOB(63),intensityTimeONEU(64),intensityTimeTWOU(65)>
  */
  /*
- //In this new code you will the user will be capable to start the panels with a offset time. The offset time is the second value in the array.
- //If the user enter 2 seconds(2000 miliseconds) for the offsettime value then the first panel will start in time 0 and ending at Sessiontime, but the second panel will be starting at offsettime that is 2 seconds and ending in Sessiontime + offsettime.
+ //In this new code you will the user will be capable to start the Boxes with a offset time. The offset time is the second value in the array.
+ //If the user enter 2 seconds(2000 miliseconds) for the offsettime value then the first Box will start in time 0 and ending at Sessiontime, but the second Box will be starting at offsettime that is 2 seconds and ending in Sessiontime + offsettime.
 
   For a better inderstanding please see the table bellow:
 
  Panel  | TimeStart    | Timeending
   B1P1  |    0         | Sessiontime
-  B1P2  | OffSetTime   | Sessiontime + OffSetTime
-  B2P1  | OffSetTime*2 | Sessiontime + OffSetTime*2
-  B2P2  | OffSetTime*3 | Sessiontime + OffSetTime*3
-  B3P1  | OffSetTime*4 | Sessiontime + OffSetTime*4
-  B3P2  | OffSetTime*5 | Sessiontime + OffSetTime*5
-  B4P1  | OffSetTime*6 | Sessiontime + OffSetTime*6
-  B4P2  | OffSetTime*7 | Sessiontime + OffSetTime*7
+  B1P2  |    0         | Sessiontime 
+  B2P1  | OffSetTime   | Sessiontime + OffSetTime
+  B2P2  | OffSetTime   | Sessiontime + OffSetTime
+  B3P1  | OffSetTime*2 | Sessiontime + OffSetTime*2
+  B3P2  | OffSetTime*2 | Sessiontime + OffSetTime*2
+  B4P1  | OffSetTime*3 | Sessiontime + OffSetTime*3
+  B4P2  | OffSetTime*3 | Sessiontime + OffSetTime*3
 
   If we define OffseTime as 3000(3 seconds) and Sessiontime as 10000(10 seconds) then we will see a table like this:
   
 Panel  | TimeStart    | Timeending
   B1P1  |    0        | 10 sec
-  B1P2  |   3 sec     | 13 sec
-  B2P1  |   6 sec     | 16 sec
-  B2P2  |   9 Sec     | 19 sec
-  B3P1  |   12 sec    | 22 sec
-  B3P2  |   15 sec    | 25 sec
-  B4P1  |   18 sec    | 28 sec
-  B4P2  |   21 sec    | 31 sec
+  B1P2  |    0        | 10 sec
+  B2P1  |   3 sec     | 13 sec
+  B2P2  |   3 Sec     | 13 sec
+  B3P1  |   6 sec     | 16 sec
+  B3P2  |   6 sec     | 16 sec
+  B4P1  |   9 sec     | 19 sec
+  B4P2  |   9 sec     | 19 sec
 
   
 Example array: 
@@ -217,17 +217,17 @@ B4P2=1;
 SecTimeStart=millis();
 OffSetTime=parameters[1];
 TimeOneB1P1S=millis()+parameters[2];
-TimeOneB1P2S=millis()+parameters[10]+OffSetTime;
-TimeOneB2P1S=millis()+parameters[18]+(OffSetTime*2);
-TimeOneB2P2S=millis()+parameters[26]+(OffSetTime*3);
-TimeOneB3P1S=millis()+parameters[34]+(OffSetTime*4);
-TimeOneB3P2S=millis()+parameters[42]+(OffSetTime*5);
-TimeOneB4P1S=millis()+parameters[50]+(OffSetTime*6);
-TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
+TimeOneB1P2S=millis()+parameters[10];
+TimeOneB2P1S=millis()+parameters[18]+OffSetTime;
+TimeOneB2P2S=millis()+parameters[26]+OffSetTime;
+TimeOneB3P1S=millis()+parameters[34]+(OffSetTime*2);
+TimeOneB3P2S=millis()+parameters[42]+(OffSetTime*2);
+TimeOneB4P1S=millis()+parameters[50]+(OffSetTime*3);
+TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*3);
 
 //LED execution
 
-  while(((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*7)))){
+  while(((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*3)))){
    if (Serial.available()){
     if(Serial.read()=='S'){
       goto Start;
@@ -265,7 +265,7 @@ TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
       
    }
    //Box 1 Panel 2
-   if(((millis()-SecTimeStart)>OffSetTime) && ((millis()-SecTimeStart) < (parameters[0]+OffSetTime))){
+   if((millis()-SecTimeStart) < parameters[0]){
     if(((TimeOneB1P2S-millis())>T_OFFSET) && B1P2==1){
       pwm1.setPWM(REDB1P2, 0,parameters[12]);
       pwm1.setPWM(BLUEB1P2, 0, parameters[14]);
@@ -295,7 +295,7 @@ TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
     
 
    //Box 2 Panel 1
-   if(((millis()-SecTimeStart)>(OffSetTime*2)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*2)))){
+   if(((millis()-SecTimeStart)>OffSetTime) && ((millis()-SecTimeStart) < (parameters[0]+OffSetTime))){
     if(((TimeOneB2P1S-millis())>T_OFFSET) && B2P1==1){
       pwm1.setPWM(REDB2P1, 0,parameters[20]);
       pwm1.setPWM(BLUEB2P1, 0, parameters[22]);
@@ -326,7 +326,7 @@ TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
    
 
     //Box 2 Panel 2
-    if(((millis()-SecTimeStart)>(OffSetTime*3)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*3)))){
+    if(((millis()-SecTimeStart)>OffSetTime) && ((millis()-SecTimeStart) < (parameters[0]+OffSetTime))){
      if(((TimeOneB2P2S-millis())>T_OFFSET) && B2P2==1){
        pwm1.setPWM(REDB2P2, 0,parameters[28]);
        pwm1.setPWM(BLUEB2P2, 0, parameters[30]);
@@ -358,7 +358,7 @@ TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
 
 
     //Box 3 Panel 1
-    if(((millis()-SecTimeStart)>(OffSetTime*4)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*4)))){
+    if(((millis()-SecTimeStart)>(OffSetTime*2)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*2)))){
     //if((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*4))){
      if(((TimeOneB3P1S-millis())>T_OFFSET) && B3P1==1){
        pwm2.setPWM(REDB3P1, 0,parameters[36]);
@@ -390,7 +390,7 @@ TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
 
 
     //Box 3 Panel 2
-    if(((millis()-SecTimeStart)>(OffSetTime*5)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*5)))){
+    if(((millis()-SecTimeStart)>(OffSetTime*2)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*2)))){
     //if((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*5))){
      if(((TimeOneB3P2S-millis())>T_OFFSET) && B3P2==1){
        pwm2.setPWM(REDB3P2, 0,parameters[44]);
@@ -423,7 +423,7 @@ TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
 
 
    //Box 4 Panel 1
-   if(((millis()-SecTimeStart)>(OffSetTime*6)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*6)))){
+   if(((millis()-SecTimeStart)>(OffSetTime*3)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*3)))){
    //if((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*6))){
     if(((TimeOneB4P1S-millis())>T_OFFSET) && B4P1==1){
       pwm2.setPWM(REDB4P1, 0,parameters[52]);
@@ -457,7 +457,7 @@ TimeOneB4P2S=millis()+parameters[58]+(OffSetTime*7);
 
 
    //Box 4 Panel 2
-   if(((millis()-SecTimeStart)>(OffSetTime*7)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*7)))){
+   if(((millis()-SecTimeStart)>(OffSetTime*3)) && ((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*3)))){
    //if((millis()-SecTimeStart) < (parameters[0]+(OffSetTime*7))){
     if(((TimeOneB4P2S-millis())>T_OFFSET) && B4P2==1){
       pwm2.setPWM(REDB4P2, 0,parameters[60]);
