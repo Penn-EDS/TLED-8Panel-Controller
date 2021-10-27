@@ -21,25 +21,25 @@ The ARRAY variables:
 
  Panel  | TimeStart    | Timeending
   B1P1  |    0         | Sessiontime
-  B1P2  | OffSetTime   | Sessiontime + OffSetTime
-  B2P1  | OffSetTime*2 | Sessiontime + OffSetTime*2
-  B2P2  | OffSetTime*3 | Sessiontime + OffSetTime*3
-  B3P1  | OffSetTime*4 | Sessiontime + OffSetTime*4
-  B3P2  | OffSetTime*5 | Sessiontime + OffSetTime*5
-  B4P1  | OffSetTime*6 | Sessiontime + OffSetTime*6
-  B4P2  | OffSetTime*7 | Sessiontime + OffSetTime*7
+  B1P2  |    0         | Sessiontime 
+  B2P1  | OffSetTime   | Sessiontime + OffSetTime
+  B2P2  | OffSetTime   | Sessiontime + OffSetTime
+  B3P1  | OffSetTime*2 | Sessiontime + OffSetTime*2
+  B3P2  | OffSetTime*2 | Sessiontime + OffSetTime*2
+  B4P1  | OffSetTime*3 | Sessiontime + OffSetTime*3
+  B4P2  | OffSetTime*3 | Sessiontime + OffSetTime*3
 
   If we define OffseTime as 3000(3 seconds) and Sessiontime as 10000(10 seconds) then we will see a table like this:
   
 Panel  | TimeStart    | Timeending
   B1P1  |    0        | 10 sec
-  B1P2  |   3 sec     | 13 sec
-  B2P1  |   6 sec     | 16 sec
-  B2P2  |   9 Sec     | 19 sec
-  B3P1  |   12 sec    | 22 sec
-  B3P2  |   15 sec    | 25 sec
-  B4P1  |   18 sec    | 28 sec
-  B4P2  |   21 sec    | 31 sec
+  B1P2  |    0        | 10 sec
+  B2P1  |   3 sec     | 13 sec
+  B2P2  |   3 Sec     | 13 sec
+  B3P1  |   6 sec     | 16 sec
+  B3P2  |   6 sec     | 16 sec
+  B4P1  |   9 sec     | 19 sec
+  B4P2  |   9 sec     | 19 sec
 
   
 Example array: 
